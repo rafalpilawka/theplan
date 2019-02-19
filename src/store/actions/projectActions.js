@@ -13,11 +13,16 @@ export const createProject = (project)=>{
     return (dispatch, getState, { getFirebase , getFirestore })=>{
 //Make ASYNCH CALL
 const firestore=getFirestore();
+
+const profile = getState().firebase.profile;//getState- we using for getting state at this point
+const authorUid = getState().firebase.auth.uid
+
+
 firestore.collection('projects').add({
     ...project,
-    authorFirstName: 'net',
-    authorLastName: 'Ninja',
-    authisId: 12345,
+    authorFirstName: profile.firstName,
+    authorLastName: profile.lastName,
+    authorId: authorUid,
     createAt: new Date()
 
 }).then(()=>{

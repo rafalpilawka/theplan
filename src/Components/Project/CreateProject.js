@@ -17,8 +17,16 @@ handleChange=(e)=>{
 handleSubmit=(e)=>{
     e.preventDefault();
     console.log(this.props);
-    this.props.createProject(this.state)
+    this.props.createProject(this.state);
+    e.target.reset();
+    console.log(this.state)
+    this.props.history.push('/')
 }
+stateCheck=()=>{
+    console.log(this.state)
+} 
+
+
 render() {
     const {auth} = this.props;
     if(!auth.uid)return <Redirect to="/signin" />
@@ -39,6 +47,7 @@ render() {
             <button className="btn red lighten-1 z-depth-0">Create</button>
         </div>
       </form>
+      <div className="center"><button onClick={this.stateCheck } className="btn center">Click State</button></div>
       </div>
     )
   }

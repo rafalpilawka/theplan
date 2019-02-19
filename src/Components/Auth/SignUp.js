@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
-import { connect } from 'react-redux'
-
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signUp } from '../../store/actions/authActions';
 
 
 class SignUp extends Component {
@@ -9,26 +9,29 @@ class SignUp extends Component {
 state={
     email: '',
     password: '',
-    firstname: '',
-    lastname: ''
+    firstName: '',
+    lastName: ''
 }
 
 handleChange=(e)=>{
 
     this.setState({[e.target.id]: e.target.value});
 }
+
 handleSubmit=(e)=>{
     e.preventDefault();
-    console.log(this.state);
+    // console.log(this.state);
+    this.props.signUp(this.state)
+
 }
 render() {
-    const { auth } = this.props;
-    if(auth.uid) return <Redirect to="/" />
+    const { auth , authError } = this.props;
+    if (auth.uid) return <Redirect to="/" />;
 
     return (
       <div className="container">
       <form onSubmit={this.handleSubmit} className="white center">
-      <h5 className="grey-text text-darken-3">SignIn</h5>
+      <h5 className="grey-text text-darken-3">SignUP</h5>
         <div className="input-field">
             <label htmlFor="email" >email</label>
             <input type="email" id="email" onChange={this.handleChange}/>
@@ -39,15 +42,18 @@ render() {
         </div>
         <div className="input-field">
             <label htmlFor="firstname" >firstname</label>
-            <input type="text" id="firstname" onChange={this.handleChange}/>
+            <input type="text" id="firstName" onChange={this.handleChange}/>
         </div>
         <div className="input-field">
             <label htmlFor="lastname" >lastname</label>
-            <input type="text" id="lastname" onChange={this.handleChange}/>
+            <input type="text" id="lastName" onChange={this.handleChange}/>
         </div>
         <div className="input-field">
             <button className="btn red lighten-1 z-depth-0">SignUp</button>
         </div>
+            <div className="red-text center">
+                {authError ? <p>{authError}</p>: null}
+            </div>
       </form>
       </div>
     )
@@ -56,8 +62,15 @@ render() {
 const mapStateToProps=(state)=>{
     return{
       
-      auth: state.firebase.auth
+      auth: state.firebase.auth,
+      authError: state.auth.authError
     }
   }
 
-export default connect(mapStateToProps, null)(SignUp)
+const mapDispatchToProps= (dispatch) => {
+    return{
+        signUp: (newUser)=> dispatch(signUp(newUser))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
