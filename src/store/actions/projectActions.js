@@ -33,3 +33,15 @@ firestore.collection('projects').add({
 
     }
 }
+
+export const deleteProject = (projectId)=>{
+
+    return (dispatch, getState, { getFirebase , getFirestore })=>{
+        
+        const firestore = getFirestore();
+        firestore.collection('projects').doc(projectId).delete().then((res)=>
+        {dispatch({type: 'DELETE_PROJECT' , res})}
+        );
+    }
+
+}

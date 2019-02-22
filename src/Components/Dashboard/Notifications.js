@@ -7,7 +7,7 @@ const Notifications =(props)=>{
     return(
         <div>
             <div className="section">
-                <div className="card z-depth-0">
+                <div className="card z-depth-1">
                     <div className="card-content">
                         <span className="card-tittle">Notifications</span>
                         <ul className="notifications">
